@@ -1,0 +1,23 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-crewbiteweb-dev-40008-authRole",
+      "UnauthRoleArn": "arn:aws:iam::352652181878:role/amplify-crewbiteweb-dev-40008-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::352652181878:role/amplify-crewbiteweb-dev-40008-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-crewbiteweb-dev-40008-deployment",
+      "UnauthRoleName": "amplify-crewbiteweb-dev-40008-unauthRole",
+      "StackName": "amplify-crewbiteweb-dev-40008",
+      "StackId": "arn:aws:cloudformation:us-east-1:352652181878:stack/amplify-crewbiteweb-dev-40008/1b9e4bf0-ae6d-11ec-9c57-124b6bbe8ef1",
+      "AmplifyAppId": "demr822tbuwhv"
+    },
+    "categories": {
+      "hosting": {
+        "amplifyhosting": {
+          "appId": "demr822tbuwhv",
+          "type": "manual"
+        }
+      }
+    }
+  }
+}
