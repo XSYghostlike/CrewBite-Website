@@ -2,20 +2,14 @@
 // SPDX-License-Identifier: MIT-0
 
 import React from "react";
-import {Navbar, Button} from "react-bootstrap";
-import {Auth} from "aws-amplify";
+import {Navbar} from "react-bootstrap";
 
-function Navigation(props) {
+function Navigation() {
   return (
     <Navbar bg="dark" variant="dark" expand="lg">
       <Navbar.Brand>
-        &nbsp; AWS Amplify Blogpost
+        &nbsp; Crewbite Mockup
       </Navbar.Brand>
-      {props.token ? (
-        <Button style={{textAlign: "right"}} onClick={() => Auth.signOut()}>
-          Sign Out
-        </Button>
-      ) : null}
     </Navbar>
   );
 }

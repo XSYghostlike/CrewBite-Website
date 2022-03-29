@@ -4,8 +4,9 @@
 import React, {useState} from "react";
 import {Card, Row, Col, Button, Modal, Spinner} from "react-bootstrap";
 import {API} from "aws-amplify";
+import {Auth} from "aws-amplify";
 
-function MainRequest(props) {
+function MainRequest() {
   const [json, setJson] = useState(null);
   const [show, setShow] = useState(false);
 
@@ -17,7 +18,8 @@ function MainRequest(props) {
 
   async function handleSubmitAuthorized() {
     setShow(true);
-    const response = await getAuthorizedData();
+    const token = (await Auth.currentUserCredentials()).sessionToken;
+    const response = await getAuthorizedData(token);
     setJson(response);
   }
 
@@ -38,14 +40,14 @@ function MainRequest(props) {
     return API.get(apiName, path, myInit);
   }
 
-  function getAuthorizedData() {
+  function getAuthorizedData(token) {
     const apiName = "CrewbiteAPI";
     const path = "/this-is-an-authorized-api";
     const myInit = {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
-        Authorization: props.token
+        Authorization: token
       }
     };
     return API.get(apiName, path, myInit);
@@ -59,7 +61,7 @@ function MainRequest(props) {
           <Card style={{width: "100%"}}>
             <Card.Body>
               <Card.Title>
-                <h3 style={{textAlign: "center"}}>Hello </h3>
+                <h3 style={{textAlign: "center"}}>API links</h3>
               </Card.Title>
               <Row>
                 <Col sm={2}></Col>

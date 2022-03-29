@@ -1,9 +1,9 @@
-import React, {useEffect, useState, Fragment} from "react";
-import Amplify, {Auth, Hub} from "aws-amplify";
+import React, {useEffect, Fragment} from "react";
+import Amplify, {Hub} from "aws-amplify";
+import {Authenticator} from "@aws-amplify/ui-react";
 import {Container} from "react-bootstrap";
 
 import Navigation from "./components/Navigation.js";
-import FederatedSignIn from "./components/FederatedSignIn.js";
 import MainRequest from "./components/MainRequest.js";
 import "./App.css";
 
@@ -30,22 +30,13 @@ Amplify.configure({
   }
 });
 
-const federatedIdName = "Google";
-
 function App() {
-  const [token, setToken] = useState(null);
-
   useEffect(() => {
     Hub.listen("auth", ({payload: {event, data}}) => {
       switch (event) {
         case "signIn":
         case "cognitoHostedUI":
-          setToken("grating...");
-          getToken().then(userToken => setToken(userToken.idToken.jwtToken));
-          break;
         case "signOut":
-          setToken(null);
-          break;
         case "signIn_failure":
         case "cognitoHostedUI_failure":
           console.log("Sign in failure", data);
@@ -56,22 +47,22 @@ function App() {
     });
   }, []);
 
-  function getToken() {
-    return Auth.currentSession()
-      .then(session => session)
-      .catch(err => console.log(err));
-  }
-
   return (
     <Fragment>
-      <Navigation token={token} />
+      <Navigation/>
       <Container fluid>
         <br />
-        {token ? (
-          <MainRequest token={token} />
-        ) : (
-          <FederatedSignIn federatedIdName={federatedIdName} />
-        )}
+            <Authenticator>
+                {({ signOut, user }) => (
+                    <>
+                        <h1 style={{textAlign: "center"}}>Hello {user.username}</h1>
+                        <MainRequest/>
+                        <div style={{textAlign: "center"}}>
+                            <button onClick={signOut}>Sign out</button>
+                        </div>
+                    </>
+                )}
+            </Authenticator>
       </Container>
     </Fragment>
   );
