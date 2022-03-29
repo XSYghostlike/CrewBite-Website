@@ -1,12 +1,8 @@
-// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
-// SPDX-License-Identifier: MIT-0
-
 import React, {useState} from "react";
 import {Card, Row, Col, Button, Modal, Spinner} from "react-bootstrap";
 import {API} from "aws-amplify";
-import {Auth} from "aws-amplify";
 
-function MainRequest() {
+function MainRequest(props) {
   const [json, setJson] = useState(null);
   const [show, setShow] = useState(false);
 
@@ -18,7 +14,7 @@ function MainRequest() {
 
   async function handleSubmitAuthorized() {
     setShow(true);
-    const token = (await Auth.currentUserCredentials()).sessionToken;
+    const token = props.user.getIdToken().getJwtToken();
     const response = await getAuthorizedData(token);
     setJson(response);
   }
@@ -56,7 +52,7 @@ function MainRequest() {
   return (
     <>
       <Row>
-        <Col sm={3}></Col>
+        <Col sm={3}/>
         <Col sm={6}>
           <Card style={{width: "100%"}}>
             <Card.Body>
@@ -64,7 +60,7 @@ function MainRequest() {
                 <h3 style={{textAlign: "center"}}>API links</h3>
               </Card.Title>
               <Row>
-                <Col sm={2}></Col>
+                <Col sm={2}/>
                 <Col sm={8}>
                   {" "}
                   <Button
@@ -78,7 +74,7 @@ function MainRequest() {
                 <Col sm={2}> </Col>
               </Row>
               <Row>
-                <Col sm={2}></Col>
+                <Col sm={2}/>
                 <Col sm={8}>
                   {" "}
                   <Button
@@ -94,7 +90,7 @@ function MainRequest() {
             </Card.Body>
           </Card>
         </Col>
-        <Col sm={3}></Col>
+        <Col sm={3}/>
       </Row>
       <Modal size="lg" show={show} onHide={handleClose}>
         <Modal.Header>

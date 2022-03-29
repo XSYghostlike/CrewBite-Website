@@ -1,15 +1,21 @@
-// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
-// SPDX-License-Identifier: MIT-0
-
 import React from "react";
-import {Navbar} from "react-bootstrap";
+import {Button, Navbar} from "react-bootstrap";
+import {Auth} from "aws-amplify";
 
-function Navigation() {
+function Navigation(props) {
   return (
     <Navbar bg="dark" variant="dark" expand="lg">
       <Navbar.Brand>
         &nbsp; Crewbite Mockup
       </Navbar.Brand>
+      { props.user ? (
+          <>
+            <Navbar.Text>{props.user.attributes['email']}</Navbar.Text>
+            <Button onClick={() => Auth.signOut()}>
+                Sign Out
+            </Button>
+          </>
+      ) : <Navbar.Text>Not Signed In</Navbar.Text>}
     </Navbar>
   );
 }

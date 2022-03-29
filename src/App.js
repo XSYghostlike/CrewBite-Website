@@ -1,7 +1,5 @@
-import React, {useEffect, Fragment} from "react";
-import Amplify, {Hub} from "aws-amplify";
-import {Authenticator} from "@aws-amplify/ui-react";
-import {Container} from "react-bootstrap";
+import React, {useEffect, Fragment, useState} from "react";
+import Amplify, {Auth, Hub} from "aws-amplify";
 
 import Navigation from "./components/Navigation.js";
 import MainRequest from "./components/MainRequest.js";
@@ -14,7 +12,7 @@ Amplify.configure({
     userPoolWebClientId: "7hd9hk7q7e0dkgg6q6sfrvb4nt",
     oauth: {
       domain: "crewbite-temp.auth.us-east-1.amazoncognito.com",
-      scope: ["email", "openid", "aws.cognito.signin.user.admin", "openid"],
+      scope: ["email", "phone", "aws.cognito.signin.user.admin", "openid"],
       redirectSignIn: "https://dev.demr822tbuwhv.amplifyapp.com",
       redirectSignOut: "https://dev.demr822tbuwhv.amplifyapp.com",
       responseType: "code"
@@ -31,12 +29,18 @@ Amplify.configure({
 });
 
 function App() {
+  const [user, setUser] = useState(null);
+
   useEffect(() => {
     Hub.listen("auth", ({payload: {event, data}}) => {
       switch (event) {
         case "signIn":
         case "cognitoHostedUI":
+          getUser().then(userData => setUser(userData));
+          break;
         case "signOut":
+          setUser(null);
+          break;
         case "signIn_failure":
         case "cognitoHostedUI_failure":
           console.log("Sign in failure", data);
@@ -45,26 +49,28 @@ function App() {
           break;
       }
     });
+
+    getUser().then(userData => setUser(userData));
   }, []);
 
+  function getUser() {
+    return Auth.currentAuthenticatedUser()
+        .then(userData => userData)
+        .catch(() => console.log('Not signed in'));
+  }
+
   return (
-    <Fragment>
-      <Navigation/>
-      <Container fluid>
-        <br />
-            <Authenticator>
-                {({ signOut, user }) => (
-                    <>
-                        <h1 style={{textAlign: "center"}}>Hello {user.username}</h1>
-                        <MainRequest/>
-                        <div style={{textAlign: "center"}}>
-                            <button onClick={signOut}>Sign out</button>
-                        </div>
-                    </>
-                )}
-            </Authenticator>
-      </Container>
-    </Fragment>
+      <Fragment>
+        <Navigation user={user} />
+        <p>User Data: {user ? JSON.stringify(user.attributes) : 'None'}</p>
+        {user ? (
+            <MainRequest user={user} />
+        ) : (
+            <div style={{textAlign: "center"}}>
+              <button onClick={() => Auth.federatedSignIn()}>Sign In</button>
+            </div>
+        )}
+      </Fragment>
   );
 }
 
