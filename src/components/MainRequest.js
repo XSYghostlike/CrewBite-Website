@@ -1,8 +1,8 @@
 import React, {useState} from "react";
 import {Card, Row, Col, Button, Modal, Spinner} from "react-bootstrap";
-import {API} from "aws-amplify";
+import {API, Auth} from "aws-amplify";
 
-function MainRequest(props) {
+function MainRequest() {
   const [json, setJson] = useState(null);
   const [show, setShow] = useState(false);
 
@@ -14,7 +14,7 @@ function MainRequest(props) {
 
   async function handleSubmitAuthorized() {
     setShow(true);
-    const token = props.user.getIdToken().getJwtToken();
+    const token = `Bearer ${(await Auth.currentSession()).getAccessToken().getJwtToken()}`
     const response = await getAuthorizedData(token);
     setJson(response);
   }
@@ -27,12 +27,7 @@ function MainRequest(props) {
   function getPublicData() {
     const apiName = "CrewbiteAPI";
     const path = "/this-is-a-public-api";
-    const myInit = {
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      }
-    };
+    const myInit = {};
     return API.get(apiName, path, myInit);
   }
 
@@ -41,8 +36,6 @@ function MainRequest(props) {
     const path = "/this-is-an-authorized-api";
     const myInit = {
       headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
         Authorization: token
       }
     };
@@ -100,7 +93,7 @@ function MainRequest(props) {
         </Modal.Header>
         <Modal.Body>
           {json ? (
-            <p>Here is the response: {json.message}</p>
+            <p>Here is the response: {JSON.stringify(json)}</p>
           ) : (
             <h3 style={{textAlign: "center"}}>
               <Spinner animation="border" variant="primary" />

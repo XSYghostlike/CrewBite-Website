@@ -64,7 +64,7 @@ function App() {
         <Navigation user={user} />
         <p>User Data: {user ? JSON.stringify(user.attributes) : 'None'}</p>
         {user ? (
-            <MainRequest user={user} />
+            <MainRequest/>
         ) : (
             <div style={{textAlign: "center"}}>
               <button onClick={() => Auth.federatedSignIn()}>Sign In</button>
