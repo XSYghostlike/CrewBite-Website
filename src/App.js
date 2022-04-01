@@ -11,10 +11,10 @@ Amplify.configure({
     userPoolId: "us-east-1_vetfoopAH",
     userPoolWebClientId: "7hd9hk7q7e0dkgg6q6sfrvb4nt",
     oauth: {
-      domain: "crewbite-temp.auth.us-east-1.amazoncognito.com",
+      domain: "crewbite.auth.us-east-1.amazoncognito.com",
       scope: ["email", "phone", "aws.cognito.signin.user.admin", "openid"],
-      redirectSignIn: "https://dev.demr822tbuwhv.amplifyapp.com",
-      redirectSignOut: "https://dev.demr822tbuwhv.amplifyapp.com",
+      redirectSignIn: "https://www.crewbite.io",
+      redirectSignOut: "https://www.crewbite.io",
       responseType: "code"
     }
   },
