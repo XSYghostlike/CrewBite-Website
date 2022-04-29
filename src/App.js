@@ -62,7 +62,7 @@ function App() {
   return (
       <Fragment>
         <Navigation user={user} />
-        <p>User Data: {user ? JSON.stringify(user.attributes) : 'None'}</p>
+        <p>Username: {user ? JSON.stringify(user.username) : 'None'}</p>
         {user ? (
             <MainRequest/>
         ) : (
