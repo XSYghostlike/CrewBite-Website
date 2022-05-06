@@ -3,8 +3,8 @@ This installation guide covers the setup & deployment process of
 * Production environment (crewbite.io, hosted by AWS Amplify)
 
 > The following operating systems were tested:
-> * Mac OS X (12.3.1)
-> * Windows 11 Pro (Build 21H2)
+> * Mac OS X (12.3)
+> * Windows 11 (Build 21H2)
 
 
 ### Tools
@@ -52,6 +52,6 @@ npm start
 > Features require service callbacks will not work locally (e.g. Cognito auth, Stripe session)
 ## Deploy to the Cloud
 ```
-amplfy publish
+amplify publish
 ```
 > Your change is now visible at crewbite.io

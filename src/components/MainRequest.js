@@ -61,7 +61,7 @@ function MainRequest() {
                     onClick={handleSubmitPublic}
                     block
                   >
-                    Call my Public API
+                    Call /this-is-a-public-api
                   </Button>
                 </Col>
                 <Col sm={2}> </Col>
@@ -75,7 +75,7 @@ function MainRequest() {
                       onClick={handleSubmitAuthorized}
                       block
                   >
-                    Call my Authorized API
+                    Call /this-is-an-authorized-api
                   </Button>
                 </Col>
                 <Col sm={2}> </Col>
